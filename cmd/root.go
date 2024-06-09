@@ -27,7 +27,7 @@ var RootCmd = &cobra.Command{
 	Use:     "geminicommit",
 	Short:   "A CLI that writes your git commit messages for you with Google Gemini AI ",
 	Long:    `A CLI that writes your git commit messages for you with Google Gemini AI `,
-	Version: "0.0.3",
+	Version: "0.1.0",
 	// Uncomment the following line if your bare application
 	// has an action associated with it:
 	Run: rootHandler.RootCommand(&stageAll, &userContext),
@@ -54,7 +54,6 @@ func init() {
 		StringVar(&cfgFile, "config", "", "config file (default is $HOME/.config/geminicommit/config.toml)")
 	RootCmd.Flags().
 		BoolVarP(&stageAll, "all", "a", false, "stage all changes in tracked files (default is false)")
-	// additional context from user input -c 
 	RootCmd.Flags().
 		StringVarP(&userContext, "context", "c", "none", "additional context to be added to the commit message")
 }

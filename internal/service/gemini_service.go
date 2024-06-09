@@ -44,7 +44,7 @@ Follow this commit format:
 
 [optional footer(s)]"
 
-Type: docs, build, ci, feat, fix, perf, refactor, style, test, chore, wip
+List of types: docs(text or string changes), build(build related changes), ci(ci config), feat(new feature), fix(fix potential bug), perf(perf improvement), refactor(changes to code structure), style(formatting changes), test(add or fix tests	), chore(internal changes), wip
 User context: %s
 NB:
 Commits use a type, scope, and description. The type is a noun, scope is optional, and description is required.
