@@ -37,19 +37,19 @@ func (g *GeminiService) AnalyzeChanges(
 				`You're an automated AI that will only generate a conventional git commit message based on this diff changes:
 %s
 
-Follow this commit format:
-"<type>(<scope>): <description>
+Follow this format:
+<type>(<scope>): <description>
 
 [optional body]
 
-[optional footer(s)]"
+[optional footer(s)]
 
-List of types: docs(text or string changes), build(build related changes), ci(ci config), feat(new feature), fix(fix potential bug), perf(perf improvement), refactor(changes to code structure), style(formatting changes), test(add or fix tests	), chore(internal changes), wip
-User context: %s
+Types: docs, build(build related), ci, feat, fix(fix potential bug), perf, refactor, style(formatting), test, chore(internal changes), wip
 NB:
+User input this "%s"
 Commits use a type, scope, and description. The type is a noun, scope is optional, and description is required.
-Decide the commit type and scope(can be the filename) based on the diff and/or user context.
-Description is a short summary of the changes and/or user context.
+Decide the commit type and scope(can be the filename) based on the diff and/or user input.
+Description is a short summary of the changes and/or user input.
 A longer body message may be provided after the description.
 Each line in footer starts with a word token (use '-' instead of spaces), followed by ':' or '#' and a value.
 Breaking changes are indicated by a ! in the type/scope prefix or as a footer.
