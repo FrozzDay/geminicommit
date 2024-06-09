@@ -52,7 +52,7 @@ func (g *GitService) DetectDiffChanges() ([]string, string, error) {
 		return nil, "", fmt.Errorf("nothing to be analyze")
 	}
 
-	diff, err := exec.Command("git", "diff", "--cached", "--diff-algorithm=minimal").
+	diff, err := exec.Command("git", "diff", "--cached", "--diff-algorithm=minimal", "--unified=10").
 		Output()
 	if err != nil {
 		fmt.Println("Error:", err)
