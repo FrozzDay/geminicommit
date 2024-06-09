@@ -18,6 +18,7 @@ const (
 	confirm    action = "CONFIRM"
 	regenerate action = "REGENERATE"
 	edit       action = "EDIT"
+	usercontext action = "USERCONTEXT"
 	cancel     action = "CANCEL"
 )
 
@@ -33,7 +34,7 @@ func NewRootUsecase(
 	return &RootUsecase{gitService, geminiService}
 }
 
-func (r *RootUsecase) RootCommand(stageAll *bool) error {
+func (r *RootUsecase) RootCommand(stageAll *bool, userContext *string) error {
 	if err := r.gitService.VerifyGitInstallation(); err != nil {
 		return err
 	}
@@ -47,6 +48,10 @@ func (r *RootUsecase) RootCommand(stageAll *bool) error {
 			return err
 		}
 	}
+	// // set userContext to none
+	// if *userContext == "" {
+	// 	*userContext = "none"
+	// }
 
 	filesChan := make(chan []string, 1)
 	diffChan := make(chan string, 1)
@@ -91,7 +96,7 @@ generate:
 		if err := spinner.New().
 			Title("The AI is analyzing your changes").
 			Action(func() {
-				message, err := r.geminiService.AnalyzeChanges(context.Background(), diff)
+				message, err := r.geminiService.AnalyzeChanges(context.Background(), diff, userContext)
 				if err != nil {
 					messageChan <- ""
 					return
@@ -123,6 +128,7 @@ generate:
 						huh.NewOption("Yes", confirm),
 						huh.NewOption("Regenerate", regenerate),
 						huh.NewOption("Edit", edit),
+						huh.NewOption("Context", usercontext),
 						huh.NewOption("Cancel", cancel),
 					).
 					Value(&selectedAction),
@@ -154,6 +160,15 @@ generate:
 			}
 			color.New(color.FgGreen).Println("✔ Successfully committed!")
 			break generate
+		case usercontext:
+			if err := huh.NewForm(
+				huh.NewGroup(
+					huh.NewText().Title("Edit user context").CharLimit(1000).Value(userContext),
+				),
+			).Run(); err != nil {
+				return err
+			}
+			continue
 		case cancel:
 			color.New(color.FgRed).Println("Commit cancelled")
 			break generate
