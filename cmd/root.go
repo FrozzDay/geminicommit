@@ -56,7 +56,7 @@ func init() {
 		BoolVarP(&stageAll, "all", "a", false, "stage all changes in tracked files (default is false)")
 	// additional context from user input -c 
 	RootCmd.Flags().
-		StringVarP(&userContext, "context", "c", "none", "additional context to be added to the commit message (default is empty)")
+		StringVarP(&userContext, "context", "c", "none", "additional context to be added to the commit message")
 }
 
 // initConfig reads in config file and ENV variables if set.

@@ -48,10 +48,9 @@ func (r *RootUsecase) RootCommand(stageAll *bool, userContext *string) error {
 			return err
 		}
 	}
-	// // set userContext to none
-	// if *userContext == "" {
-	// 	*userContext = "none"
-	// }
+	if *userContext != "none" {
+		fmt.Printf("User context: %s\n", *userContext)
+	}
 
 	filesChan := make(chan []string, 1)
 	diffChan := make(chan string, 1)
