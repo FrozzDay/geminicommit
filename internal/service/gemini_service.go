@@ -29,18 +29,12 @@ func (g *GeminiService) AnalyzeChanges(
 		return "", err
 	}
 	defer client.Close()
-	if *userContext != "none" {
-		fmt.Printf("User context: %s\n", *userContext)
-	}
 	model := client.GenerativeModel("gemini-pro")
 	resp, err := model.GenerateContent(
 		ctx,
 		genai.Text(
 			fmt.Sprintf(
 				`You're an automated AI that will only generate a conventional git commit message based on this diff changes:
-%s
-
-User context:
 %s
 
 Follow this commit format:
@@ -51,11 +45,11 @@ Follow this commit format:
 [optional footer(s)]"
 
 Type: docs, build, ci, feat, fix, perf, refactor, style, test, chore, wip
-
+User context: %s
 NB:
 Commits use a type, scope, and description. The type is a noun, scope is optional, and description is required.
-Decide the commit type and scope(can be the filename) based on the diff or user context.
-Description is a short summary of the changes.
+Decide the commit type and scope(can be the filename) based on the diff and/or user context.
+Description is a short summary of the changes and/or user context.
 A longer body message may be provided after the description.
 Each line in footer starts with a word token (use '-' instead of spaces), followed by ':' or '#' and a value.
 Breaking changes are indicated by a ! in the type/scope prefix or as a footer.
